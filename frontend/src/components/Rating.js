@@ -27,4 +27,4 @@ Rating.propTypes = {
   color: PropTypes.string
 }
 
-export default Rating
+export default Rating;
