@@ -7,6 +7,6 @@ const userSchema = mongoose.Schema({
   isAdmin: { type: Boolean, required: true, default: false }
 },{ timestamps: true })
 
-const User = mongoose.model('Users', userSchema);
+const User = mongoose.model('users', userSchema);
 
 module.exports = User;
