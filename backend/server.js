@@ -6,10 +6,12 @@ const connectDB = require('./config/db');
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 
 const productRoutes = require('./routes/productRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 connectDB();
 const app = express();
+app.use(express.json());
 
 // app.use(notFound);
 // app.use(errorHandler);
@@ -18,7 +20,8 @@ app.get('/', (req, res) => {
   res.send('API is running');
 })
 
-app.use('/api/products', productRoutes)
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 
 const PORT = process.env.PORT || 5000;
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
 import Rating from './../components/Rating';
-import axios from 'axios';
+// import axios from 'axios';
 // import products from './../products';
 import { listProductDetails, listProducts } from '../actions/productActions';
 import  Loader from './../components/Loader';
