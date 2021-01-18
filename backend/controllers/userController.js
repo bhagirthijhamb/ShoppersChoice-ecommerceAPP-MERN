@@ -3,13 +3,13 @@ const User = require('./../models/userModel');
 // @desc  Auth user & get token
 // @route POST /api/users/login
 // @access Public
-const authUser = async(req, res) => {
+const findUserByEmail = async(email) => {
   try {
-    const { email, password } = req.body
-   res.send({email, password});
+    const user = await User.findOne({ email });
+    return user;
   } catch(error){
     throw error;
   }
 }
 
-module.exports = { authUser };
+module.exports = { findUserByEmail };
