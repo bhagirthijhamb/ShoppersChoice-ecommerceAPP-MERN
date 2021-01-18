@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { findUserByEmail } = require('./../controllers/userController');
+const { findUserByEmail, findUserById } = require('./../controllers/userController');
+const { generateToken } = require('./../utils/generateToken');
+const { protect } = require('./../middlewares/authMiddleware');
 
 router.post('/login', async(req, res) => {
   const { email, password } = req.body;
@@ -23,12 +25,21 @@ router.post('/login', async(req, res) => {
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
-        token: null
-      }
+        token: generateToken(user._id)
+    }
     res.json(userData);
   } catch(error){
     console.log(error)
   }
 })
+
+router.get('/profile', protect, async(req, res) => {
+  try {
+    const user = await findUserById(req.user._id);
+    res.send(user);
+  } catch(error){
+    console.log(error);
+  }
+});
 
 module.exports = router;

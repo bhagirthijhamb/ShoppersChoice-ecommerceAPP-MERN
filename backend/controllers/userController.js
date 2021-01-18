@@ -12,4 +12,22 @@ const findUserByEmail = async(email) => {
   }
 }
 
-module.exports = { findUserByEmail };
+// @desc  GET user profile
+// @route GET /api/users/profile
+// @access  Private
+const findUserById = async(id) => {
+  try {
+    const user = await User.findById(id);
+    return {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin
+    };
+  } catch(error){
+    throw error;
+  }
+
+}
+
+module.exports = { findUserByEmail, findUserById };
