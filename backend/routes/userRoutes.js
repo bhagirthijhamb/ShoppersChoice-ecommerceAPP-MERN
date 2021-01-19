@@ -41,11 +41,11 @@ router.post('/login', async(req, res) => {
     // console.log(password)
     const isMatch = await user.matchPasswords(password);
     if(!isMatch){
-      res.status(400).json({ message: 'password and email so not match' });
+      res.status(400).json({ message: 'password and email do not match' });
       return;
     }
     const userData = {
-        _id: user._id,
+        id: user._id,
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
@@ -53,7 +53,8 @@ router.post('/login', async(req, res) => {
     }
     res.json(userData);
   } catch(error){
-    console.log(error)
+    console.log(error);
+    res.status(500).json({ message: 'Something went wrong' });
   }
 })
 
@@ -63,6 +64,7 @@ router.get('/profile', protect, async(req, res) => {
     res.send(user);
   } catch(error){
     console.log(error);
+    res.status(500).json({ message: 'Something went wrong' });
   }
 });
 
