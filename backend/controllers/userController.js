@@ -1,5 +1,17 @@
 const User = require('./../models/userModel');
 
+// @desc  Register a new user
+// @route POST /api/users
+// @access Public
+const createUser = async({ name, email, password }) => {
+  try {
+    const newUser = await User.create({ name, email, password });
+    return newUser;
+  } catch(error){
+    throw error;
+  }
+}
+
 // @desc  Auth user & get token
 // @route POST /api/users/login
 // @access Public
@@ -30,4 +42,4 @@ const findUserById = async(id) => {
 
 }
 
-module.exports = { findUserByEmail, findUserById };
+module.exports = { findUserByEmail, findUserById, createUser };

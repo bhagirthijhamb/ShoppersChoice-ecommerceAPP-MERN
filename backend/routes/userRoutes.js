@@ -1,8 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const { findUserByEmail, findUserById } = require('./../controllers/userController');
+const { findUserByEmail, findUserById, createUser } = require('./../controllers/userController');
 const { generateToken } = require('./../utils/generateToken');
 const { protect } = require('./../middlewares/authMiddleware');
+const User = require('../models/userModel');
+
+router.post('/', async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    const userExists = await findUserByEmail(email)
+    if(userExists){
+      res.status(400).json({ message:  `email ${email} already exists`});
+      return;
+    }
+    // create the user in the db
+    const user = await createUser({ name, email, password });
+    res.status(201).json({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateToken(user._id)
+    })
+  } catch(error){
+    console.log(error);
+    res.status(500).json({ message: 'Something went wrong' });
+  }
+})
 
 router.post('/login', async(req, res) => {
   const { email, password } = req.body;

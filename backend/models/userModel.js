@@ -8,6 +8,19 @@ const userSchema = mongoose.Schema({
   isAdmin: { type: Boolean, required: true, default: false }
 },{ timestamps: true })
 
+userSchema.pre('save', async function(next){
+  try {
+    if(!this.isModified('password')){
+      next();
+    }
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  } catch(error){
+    // tell you logging service about the error
+    next(error);
+  }
+})
+
 userSchema.methods.matchPasswords = async function(enteredPasssword){
   return await bcrypt.compare(enteredPasssword, this.password)
 }
