@@ -11,17 +11,23 @@ export const login = (email, password) => async (dispatch) => {
         'Content-Type': 'application/json'
       }
     }
-    const { data } = await axios.post('/api/users/login', { email, password}, config );
+    const body = {
+      email: email,
+      password: password
+    }
+    console.log(body);
+    const { data } = await axios.post('/api/users/login', body, config );
+    console.log(data);
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data
     })
     localStorage.setItem('userInfo', JSON.stringify(data))
   } catch(error){
-    console.log(error)
+    console.log(error.response)
     dispatch({ 
       type: USER_LOGIN_FAIL, 
-      payload: error.response && error.response.data.message ? error.response.data.message : error.message 
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message
     })
   }
 }
