@@ -1,7 +1,7 @@
 const Product  = require('./../models/productModel');
 
 // @desc  Fetch all products
-// @route FET /api/products
+// @route GET /api/products
 // @access Public
 const getProducts = async() => {
   try {
@@ -15,9 +15,9 @@ const getProducts = async() => {
 // @desc  Fetch single product
 // @route GET /api/products/:id
 // @access Public
-const getProductById = async (productId) => {
+const getProductById = async (id) => {
   try {
-    const product = await Product.findById(productId)
+    const product = await Product.findById(id)
     return product;
   } catch(error){
     throw error;

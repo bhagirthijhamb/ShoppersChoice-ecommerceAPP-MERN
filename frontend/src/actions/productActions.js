@@ -7,9 +7,12 @@ export const listProducts = () => async (dispatch) => {
     const { data } = await axios.get('/api/products');
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data })
   } catch(error){
+    console.log(error)
+    console.log(error.response)
     dispatch({ 
       type: PRODUCT_LIST_FAIL, 
-      payload: error.response && error.response.data.message ? error.response.data.message : error.message })
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message 
+    })
   }
 }
 

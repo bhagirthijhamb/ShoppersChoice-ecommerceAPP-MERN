@@ -49,7 +49,7 @@ const CartScreen = ({ match, location, history }) => {
                       })}
                     </Form.Control>
                   </Col>
-                  <Col>
+                  <Col md={3}>
                     <Button type='button' variant='light' onClick={() => removeFromCartHandler(item.product)}><i className='fas fa-trash'></i>
                     </Button>
                   </Col>

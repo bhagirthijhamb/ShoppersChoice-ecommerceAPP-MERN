@@ -63,7 +63,7 @@ const ProductScreen = ( props ) => {
               Price: ${product.price}
             </ListGroup.Item>
             <ListGroup.Item>
-              Description: ${product.description}
+              Description: {product.description}
             </ListGroup.Item>
           </ListGroup>
         </Col>
@@ -79,7 +79,7 @@ const ProductScreen = ( props ) => {
               <ListGroup.Item>
                 <Row>
                   <Col>Status:</Col>
-                  <Col>${product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}</Col>
+                  <Col>{product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}</Col>
                 </Row>
               </ListGroup.Item>
             </ListGroup>

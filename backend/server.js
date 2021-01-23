@@ -13,8 +13,13 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-// app.use(notFound);
+// app.use((req, res, next) => {
+//   console.log(req.ofiginalUrl);
+//   next()
+// })
+
 // app.use(errorHandler);
+// app.use(notFound);
 
 app.get('/', (req, res) => {
   res.send('API is running');

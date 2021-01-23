@@ -28,9 +28,11 @@ router.post('/', async (req, res) => {
   }
 })
 
+// Validate email and password
+// and then send a token
 router.post('/login', async(req, res) => {
   const { email, password } = req.body;
-  console.log(email, password)
+  // console.log(email, password)
   try{
     const user = await findUserByEmail(email);
     if(!user){
@@ -53,7 +55,7 @@ router.post('/login', async(req, res) => {
     }
     res.json(userData);
   } catch(error){
-    console.log(error);
+    // console.log(error);
     res.status(500).json({ message: 'Something went wrong' });
   }
 })
