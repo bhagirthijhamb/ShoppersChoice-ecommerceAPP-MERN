@@ -4,6 +4,7 @@ const { findUserByEmail, findUserById, createUser } = require('./../controllers/
 const { generateToken } = require('./../utils/generateToken');
 const { protect } = require('./../middlewares/authMiddleware');
 const User = require('../models/userModel');
+const { findById } = require('../models/userModel');
 
 router.post('/', async (req, res) => {
   const { name, email, password } = req.body;
@@ -66,8 +67,32 @@ router.get('/profile', protect, async(req, res) => {
     res.send(user);
   } catch(error){
     console.log(error);
-    res.status(500).json({ message: 'Something went wrong' });
+    res.status(500).json({ message: 'User not found' });
   }
 });
+
+router.put('/profile', protect, async(req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if(user){
+      user.name = req.body.name || user.name
+      user.email = req.body.email || user.email;
+      if(req.body.password){
+        user.password = req.body.password
+      }
+      const updatedUser = await user.save();
+      res.status(201).json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+        token: generateToken(updatedUser._id)
+      })
+    }
+  } catch(error){
+    console.log(error)
+    res.status(404).json({ message: 'User not found'})
+  }
+})
 
 module.exports = router;
