@@ -20,7 +20,7 @@ const productSchema = mongoose.Schema({
   countInStock: { type: Number, required: true, default: 0 }
 })
 
-const Product = mongoose.model('products', productSchema);
+const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
 
