@@ -120,4 +120,44 @@ router.delete('/:id', protect, admin, async(req, res) => {
   }
 })
 
+// Private/Admin
+// get user by id
+router.get('/:id', protect, admin, async(req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password');
+    if(user){
+      res.json(user);
+    } else {
+      throw new Error()
+    }
+  } catch(error){
+    res.status(404).json({ message: 'User not found'});
+  }
+})
+
+// update user 
+router.put('/:id', protect, admin, async(req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    console.log('user', user);  
+    if(user){
+      user.name = req.body.name || user.name
+      user.email = req.body.email || user.email;
+      user.isAdmin = req.body.isAdmin || user.isAdmin
+
+      const updatedUser = await user.save();
+
+      res.status(201).json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+      })
+    }
+  } catch(error){
+    console.log(error)
+    res.status(404).json({ message: 'User not found'})
+  }
+})
+
 module.exports = router;
