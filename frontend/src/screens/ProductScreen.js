@@ -5,7 +5,7 @@ import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import Rating from './../components/Rating';
 // import axios from 'axios';
 // import products from './../products';
-import { listProductDetails, listProducts } from '../actions/productActions';
+import { listProductDetails } from '../actions/productActions';
 import  Loader from './../components/Loader';
 import Message from './../components/Message';
 
