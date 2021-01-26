@@ -105,4 +105,19 @@ router.get('/', protect, admin, async(req, res) => {
   }
 })
 
+// Private/Admin
+router.delete('/:id', protect, admin, async(req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if(user){
+      await user.remove();
+      res.json({ message: 'User removed' });
+    } else {
+      throw new Error()
+    }
+  } catch(error){
+    res.status(404).json({ message: 'User not found'});
+  }
+})
+
 module.exports = router;
