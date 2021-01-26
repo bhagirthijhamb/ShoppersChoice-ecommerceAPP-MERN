@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { findUserByEmail, findUserById, createUser } = require('./../controllers/userController');
 const { generateToken } = require('./../utils/generateToken');
-const { protect } = require('./../middlewares/authMiddleware');
+const { protect, admin } = require('./../middlewares/authMiddleware');
 const User = require('../models/userModel');
 const { findById } = require('../models/userModel');
 
@@ -92,6 +92,16 @@ router.put('/profile', protect, async(req, res) => {
   } catch(error){
     console.log(error)
     res.status(404).json({ message: 'User not found'})
+  }
+})
+
+// Private/ Admin
+router.get('/', protect, admin, async(req, res) => {
+  try {
+    const users = await User.find({});
+    res.json(users);
+  } catch(error){
+    console.log(error)
   }
 })
 
