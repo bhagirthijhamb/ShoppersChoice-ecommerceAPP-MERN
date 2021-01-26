@@ -66,4 +66,17 @@ router.put('/:id/pay', protect, async(req, res) => {
   }
 })
 
+// Get logged in user orders
+router.get('/order/myorders', protect, async(req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user._id });
+    // if(!orders){
+    //   throw new Error()
+    // }
+    res.json(orders)
+  } catch(error){
+    res.status(500).json({ message: 'Something went wrong'})
+  }
+})
+
 module.exports = router;
