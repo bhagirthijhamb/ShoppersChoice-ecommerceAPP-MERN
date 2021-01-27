@@ -1,11 +1,11 @@
 const path = require('path');
-const expresss = require('express');
+const express = require('express');
 const multer = require ('multer');
 const router = express.Router();
 
 const storage = multer.diskStorage({
   destination(req, file, cb){
-    cb(null, 'uploades/')
+    cb(null, 'uploads/')
   },
   filename(req, file, cb){
     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`)
@@ -35,4 +35,4 @@ router.post('/', upload.single('image'), (req, res) => {
   res.send(`/${req.file.path}`);
 })
 
-export default router;
+module.exports = router;

@@ -10,7 +10,6 @@ const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');  
-const { updateProduct } = require('../frontend/src/actions/productActions');
 
 dotenv.config();
 connectDB();
