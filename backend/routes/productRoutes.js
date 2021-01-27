@@ -43,4 +43,52 @@ router.delete('/:id', protect, admin, async (req, res) => {
   }
 })
 
+// Create a product
+router.post('/', protect, admin, async (req, res) => {
+  try {
+    const product = new Product({
+      name: 'Sample name',
+      price: 0,
+      user: req.user._id,
+      image: '/images/sample.jpg',
+      brand: 'Sample brand',
+      category: 'Sample category',
+      countInStock: 0,
+      numReviews: 0,
+      description: 'Sample description'
+    })
+    const createdProduct = await product.save()
+    res.json(createdProduct);
+  } catch(error){
+    console.log(error);
+    res.status(404).json({ message: 'Something went wrong' });
+  }
+})
+
+// Update a product
+router.put('/:id', protect, admin, async (req, res) => {
+  try {
+    const { name, price, description, image, brand, category, countInStock } = req.body;
+
+    const product = await Product.findById(req.params.id)
+    if(product){
+      product.name = name;
+      product.price = price;
+      product.description = description;
+      product.image = image;
+      product.brand= brand;
+      product.category= category;
+      product.countInStock = countInStock;
+
+    const updatedProduct = await product.save()
+    res.json(updatedProduct);
+    } else {
+      throw new Error();
+    }
+  } catch(error){
+    console.log(error);
+    res.status(404).json({ message: 'Product not found' });
+  }
+})
+
 module.exports = router;
