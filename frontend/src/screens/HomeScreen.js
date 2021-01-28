@@ -8,11 +8,13 @@ import { listProducts } from './../actions/productActions';
 import Message from './../components/Message';
 import Loader from './../components/Loader';
 
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
   // const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
   const productList = useSelector(state => state.productList);
   const { loading, error, products } = productList;
+
+  const keyword = match.params.keyword;
 
   useEffect(() => {
     // const fetchProducts = async() => {
@@ -21,8 +23,8 @@ const HomeScreen = () => {
     // }
     // fetchProducts();
 
-    dispatch(listProducts())
-  }, [dispatch])
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword])
 
   return (
     <>

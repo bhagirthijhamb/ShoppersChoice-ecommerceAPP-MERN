@@ -3,9 +3,9 @@ const Product  = require('./../models/productModel');
 // @desc  Fetch all products
 // @route GET /api/products
 // @access Public
-const getProducts = async() => {
+const getProducts = async(keyword) => {
   try {
-    const products = await Product.find({}); // empty object gives us everything
+    const products = await Product.find({...keyword}); // empty object gives us everything
     return products;
   } catch(error){
     throw error;

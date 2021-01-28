@@ -6,7 +6,13 @@ const { getProducts, getProductById } = require('./../controllers/productControl
 
 router.get('/', async (req, res) => {
   try {
-    const products = await getProducts()
+    const keyword = req.query.keyword ? {
+      name: {
+        $regex: req.query.keyword,
+        $options: 'i'
+      }
+    } : {}
+    const products = await getProducts(keyword)
     res.json(products);
   } catch(error){
     console.log(error);
