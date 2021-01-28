@@ -1,7 +1,7 @@
 const Order  = require('./../models/orderModel');
 const express = require('express');
 const router = express.Router();
-const { protect } = require('./../middlewares/authMiddleware');
+const { protect, admin } = require('./../middlewares/authMiddleware');
 
 
 router.post('/', protect, async (req, res) => {
@@ -79,4 +79,16 @@ router.get('/order/myorders', protect, async(req, res) => {
   }
 })
 
+// Get all orders/ for admin
+router.get('/', protect, admin, async(req, res) => {
+  try {
+    const orders = await Order.find({}).populate('user', 'id name');
+    res.json(orders)
+     if(!orders){
+      throw new Error()
+    }
+  } catch(error){
+    res.status(500).json({ message: 'Something went wrong'})
+  }
+})
 module.exports = router;
