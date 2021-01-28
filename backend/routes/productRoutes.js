@@ -136,4 +136,17 @@ router.post('/:id/reviews', protect, async (req, res) => {
   }
 })
 
+// Get top-rated products
+router.get('/product/top', async(req, res) => {
+  try {
+    const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+    res.json(products);
+    if(!products){
+      throw new Error();
+    }
+  } catch(error){
+    res.status(500).json({ message: 'Something went wrong.'})
+  }
+})
+
 module.exports = router;
