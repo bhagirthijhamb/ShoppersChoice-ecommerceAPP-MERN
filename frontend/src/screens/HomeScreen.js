@@ -7,14 +7,16 @@ import Product from './../components/Product';
 import { listProducts } from './../actions/productActions';
 import Message from './../components/Message';
 import Loader from './../components/Loader';
+import Paginate from './../components/Paginate';
 
 const HomeScreen = ({ match }) => {
   // const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
   const productList = useSelector(state => state.productList);
-  const { loading, error, products } = productList;
+  const { loading, error, products, page, pages } = productList;
 
   const keyword = match.params.keyword;
+  const pageNumber = match.params.pageNumber || 1;
 
   useEffect(() => {
     // const fetchProducts = async() => {
@@ -23,8 +25,8 @@ const HomeScreen = ({ match }) => {
     // }
     // fetchProducts();
 
-    dispatch(listProducts(keyword));
-  }, [dispatch, keyword])
+    dispatch(listProducts(keyword, pageNumber));
+  }, [dispatch, keyword, pageNumber])
 
   return (
     <>
@@ -34,13 +36,16 @@ const HomeScreen = ({ match }) => {
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
-      <Row>
-        {products.map(product => (
-          <Col key={product._id} sm={12} ms={6} lg={4} xl={3}>
-            <Product product={product} />
-          </Col>
-        ))}
-      </Row>
+      <>
+        <Row>
+          {products.map(product => (
+            <Col key={product._id} sm={12} ms={6} lg={4} xl={3}>
+              <Product product={product} />
+            </Col>
+          ))}
+        </Row>
+        <Paginate pages={pages} page={page} keyword={keyword ?  keyword : ''}></Paginate>
+      </>
       )}
     </>
   )

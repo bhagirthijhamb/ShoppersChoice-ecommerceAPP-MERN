@@ -6,14 +6,18 @@ const { getProducts, getProductById } = require('./../controllers/productControl
 
 router.get('/', async (req, res) => {
   try {
+    const pageSize = 4;
+    const page = Number(req.query.pageNumber) || 1
     const keyword = req.query.keyword ? {
       name: {
         $regex: req.query.keyword,
         $options: 'i'
       }
     } : {}
-    const products = await getProducts(keyword)
-    res.json(products);
+
+    const count = await Product.countDocuments({ ...keyword })
+    const products = await getProducts(keyword, pageSize, page)
+    res.json({ products, page, pages: Math.ceil(count/pageSize) });
   } catch(error){
     console.log(error);
     res.status(500).json({ message: 'Internal server error' });
