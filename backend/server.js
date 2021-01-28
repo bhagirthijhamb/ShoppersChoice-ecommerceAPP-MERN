@@ -3,6 +3,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const colors = require('colors');
 // const products = require('./data/products');
+const morgan = require('morgan'); 
 const connectDB = require('./config/db');
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 
@@ -15,6 +16,10 @@ dotenv.config();
 connectDB();
 const app = express();
 app.use(express.json());
+
+if(process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 // app.use((req, res, next) => {
 //   console.log(req.ofiginalUrl);

@@ -91,4 +91,39 @@ router.put('/:id', protect, admin, async (req, res) => {
   }
 })
 
+// Create new review
+router.post('/:id/reviews', protect, async (req, res) => {
+  try {
+    const { comment, rating } = req.body;
+
+    const product = await Product.findById(req.params.id)
+    console.log(product);
+    if(product){
+      const alreadyReviewed = product.reviews.find(r => r.user.toString() === req.user._id.toString())
+
+      if(alreadyReviewed){
+        throw new Error();
+      }
+      const review = {
+        name: req.user.name,
+        rating: Number(rating),
+        comment,
+        user: req.user._id
+      }
+
+      product.reviews.push(review);
+
+      product.numReviews = product.reviews.length;
+
+      product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0)/ product.reviews.length;
+
+      await product.save();
+      res.status(201).json({ message: 'Review added'})
+    }
+  } catch(error){
+    console.log(error);
+    res.status(404).json({ message: 'Product already reviewed' });
+  }
+})
+
 module.exports = router;
