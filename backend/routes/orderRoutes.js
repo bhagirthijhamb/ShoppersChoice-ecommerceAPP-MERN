@@ -66,6 +66,25 @@ router.put('/:id/pay', protect, async(req, res) => {
   }
 })
 
+// Update order to delivered
+router.put('/:id/deliver', protect, admin, async(req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if(order){
+      order.isDelivered = true;
+      order.deliveredAt = Date.now()
+
+      const updatedOrder = await order.save();
+      res.json(updatedOrder);
+    } else {
+      throw new Error()
+    }
+  } catch(error){
+    res.status(404).json({ message: 'Order not found'})
+  }
+})
+
 // Get logged in user orders
 router.get('/order/myorders', protect, async(req, res) => {
   try {
