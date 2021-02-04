@@ -33,7 +33,6 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
     const { userLogin: { userInfo }} = getState();
     const config = {
       headers: {
-        // 'Content-Type': 'application/json', // not required with get request
         Authorization: `Bearer ${userInfo.token}`
       }
     }
@@ -105,7 +104,6 @@ export const listMyOrders = () => async (dispatch, getState) => {
     const { userLogin: { userInfo }} = getState();
     const config = {
       headers: {
-        // 'Content-Type': 'application/json',
         Authorization: `Bearer ${userInfo.token}`
       }
     }
@@ -129,7 +127,6 @@ export const listOrders = () => async (dispatch, getState) => {
     const { userLogin: { userInfo }} = getState();
     const config = {
       headers: {
-        // 'Content-Type': 'application/json',
         Authorization: `Bearer ${userInfo.token}`
       }
     }
